@@ -6,5 +6,6 @@ export interface Field {
     label: FieldLabel,
     type: FieldType,
     value: string,
-    render(): HTMLElement
+    render(): HTMLElement,
+    getValue(): string
 }

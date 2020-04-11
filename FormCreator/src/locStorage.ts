@@ -1,5 +1,6 @@
 export class LocStorage implements Storage {
     [name: string]: any;
+    keyMain: string = "1234567890";
     length: number;
     clear(): void {
         localStorage.clear();
@@ -18,6 +19,13 @@ export class LocStorage implements Storage {
     }
     saveDocument(object: any): string {
         const key: string = Date.now().toString();
+        const getDocuments = this.getDocuments();
+        if (getDocuments.length == 0) {
+            this.setItem(this.keyMain, JSON.stringify([]));
+        } 
+        getDocuments.push(key);
+        this.setItem(this.keyMain, JSON.stringify(getDocuments));
+
         this.setItem(key, JSON.stringify(object));
         return key;
     }
@@ -25,8 +33,10 @@ export class LocStorage implements Storage {
         const getDocument = this.getItem(string);
         return JSON.parse(getDocument);
     }
-    getDocuments(): object[] {
-        return JSON.parse(localStorage.getItem("1234567890"));
+    getDocuments(): string[] {
+        let documents = localStorage.getItem(this.keyMain) ? JSON.parse(localStorage.getItem(this.keyMain)) : [];
+
+        return documents;
     }
 
 }

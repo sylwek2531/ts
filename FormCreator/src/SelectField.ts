@@ -15,6 +15,9 @@ export class SelectField implements Field {
         this.value = value ? value : "";
         this.option = option;
     }
+    getValue(): string {
+        return this.value;
+    }
     render(): HTMLDivElement {
         const element = document.createElement("div");
         element.classList.add("form-group");

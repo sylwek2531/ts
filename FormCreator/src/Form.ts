@@ -3,6 +3,7 @@ import { EmailField } from "./EmailField";
 import { SelectField } from "./SelectField";
 import { CheckboxField } from "./CheckboxField";
 import { TextAreaField } from "./TextAreaField";
+import { LocStorage } from "./locStorage";
 
 export class Form {
     renderElement: string = "input-wrapper";
@@ -24,6 +25,27 @@ export class Form {
         const forms = document.createElement("div");
         this.renderForm.forEach(el => forms.append(el.render()));
         const renderElement: HTMLElement = document.getElementById(this.renderElement);
+
+        const buttonSave = document.createElement("button");
+        buttonSave.innerText = "Save";
+        buttonSave.addEventListener("click", () => {
+            this.save();
+        })
+
+        const buttonBack = document.createElement("button");
+        buttonBack.innerText = "Back";
+        buttonBack.addEventListener("click", () => {
+            window.location.href = '/index.html';
+        })
+
         renderElement.append(forms);
+        renderElement.append(buttonBack);
+        renderElement.append(buttonSave);
+    }
+    save() {
+        const save = new LocStorage();
+        save.saveDocument(this.getValue());
+        window.location.href = '/index.html';
+
     }
 }

@@ -13,6 +13,9 @@ export class DateField implements Field {
         this.label = new FieldLabel(label);
         this.value = value ? value : "";
     }
+    getValue(): string {
+        return this.value;
+    }
     render(): HTMLDivElement {
         const element = document.createElement("div");
         element.classList.add("form-group");
