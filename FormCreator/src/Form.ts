@@ -4,20 +4,41 @@ import { SelectField } from "./SelectField";
 import { CheckboxField } from "./CheckboxField";
 import { TextAreaField } from "./TextAreaField";
 import { LocStorage } from "./locStorage";
+import { FieldType } from "./EFieldType";
 
 export class Form {
     renderElement: string = "input-wrapper";
-    renderForm = [new InputField("name", "Imię"), new InputField("surname", "Nazwisko"), new EmailField("email", "E-mail"), new SelectField("fieldStudy", "Wybrany kierunek studiów", "", ["Informatyka i  ekjonometria", "Budownictwo", "Mechatronika"]), new CheckboxField("eLearning", "Czy preferujesz e-learning", "Preferuje"), new TextAreaField("comments", "Uwagi")];
+    renderForm = [new InputField("name", "Imię"), new InputField("surname", "Nazwisko"), new EmailField("email", "E-mail"), new SelectField("fieldStudy", "Wybrany kierunek studiów", "", ["Informatyka i  ekjonometria", "Budownictwo", "Mechatronika"]), new CheckboxField("eLearning", "Czy preferujesz e-learning"), new TextAreaField("comments", "Uwagi")];
+    // renderForm = [new InputField("name", "Imię"), new InputField("surname", "Nazwisko"), new EmailField("email", "E-mail"), new SelectField("fieldStudy", "Wybrany kierunek studiów", "", ["Informatyka i  ekjonometria", "Budownictwo", "Mechatronika"]), new CheckboxField("eLearning", "Czy preferujesz e-learning", "Preferuje"), new TextAreaField("comments", "Uwagi")];
+    // renderForm = [new InputField("name", "Imię")];
     // renderForm = [new InputField("name", "imie"), InputField, EmailField, SelectField, CheckboxField, TextAreaField];
     constructor(renderElement?: string) {
         this.renderElement = renderElement ? renderElement : this.renderElement;
+
+    }
+    // insertValue(documentData:{ [key: string]: string | number }){
+    insertValue(documentData:any){
+        this.renderForm.forEach(el => {
+            if(documentData.hasOwnProperty(el.name)){
+                el.value = documentData[el.name];
+            }
+          
+        })
+        console.log(this.renderForm);
 
     }
     getValue() {
         const answer: { [key: string]: string | number } = {};
 
         this.renderForm.forEach(el => {
-            answer[el.name] = (<HTMLInputElement>document.getElementById(el.id + el.name)).value;
+            console.log(el)
+            if(el.type === FieldType.inputCheckbox){
+                console.log(document.getElementById(el.id + el.name+":checked"));
+                // answer[el.name] = (<HTMLInputElement>document.getElementById(el.id + el.name+":checked")).value;
+                answer[el.name] = (<HTMLInputElement>document.getElementById(el.id + el.name)).value;
+            }else{
+                answer[el.name] = (<HTMLInputElement>document.getElementById(el.id + el.name)).value;
+            }
         })
         return answer;
     }
@@ -43,9 +64,10 @@ export class Form {
         renderElement.append(buttonSave);
     }
     save() {
-        const save = new LocStorage();
-        save.saveDocument(this.getValue());
-        window.location.href = '/index.html';
+        console.log(this.getValue());
+        // const save = new LocStorage();
+        // save.saveDocument(this.getValue());
+        // window.location.href = '/index.html';
 
     }
 }

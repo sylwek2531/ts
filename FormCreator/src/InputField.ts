@@ -16,6 +16,9 @@ export class InputField implements Field {
     getValue(): string {
         return this.value;
     }
+    // setValue(value:string){
+    //     this.value = value;
+    // }
     render(): HTMLDivElement {
         const element = document.createElement("div");
         element.classList.add("form-group");
@@ -25,6 +28,9 @@ export class InputField implements Field {
         input.type = "text";
         input.name = this.name;
         input.value = this.value;
+
+        //this.type wumagany tutaj? jesli nie a weysoetlam nie mam tego klucza
+        this.type = FieldType.inputText
         element.append(this.label.render());
         element.append(input);
         return element;

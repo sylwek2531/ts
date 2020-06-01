@@ -23,6 +23,7 @@ export class CheckboxField implements Field {
         const input = <HTMLInputElement>document.createElement("input");
         input.id = this.id.toString() + this.name;
         input.type = "checkbox";
+        this.type = FieldType.inputCheckbox
         input.name = this.name;
         input.value = this.value;
         element.append(this.label.render());
