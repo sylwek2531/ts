@@ -22,8 +22,8 @@ export class DocumentList {
                 list.append(a);
                 const button = document.createElement("button");
                 button.innerText = "Usuń";
-                button.addEventListener("click", ()=>{
-                    this.removeDocument(el);
+                button.addEventListener("click", (e)=>{
+                    this.removeDocument(el,e);
                 })
                 list.append(button);
                 createList.append(list);
@@ -37,8 +37,10 @@ export class DocumentList {
         const getDocument = new LocStorage();
         return  getDocument.loadDocument(id);
     }
-    removeDocument(id:string){
-        const removeDocument = new LocStorage();
-        removeDocument.removeItem(id);
+    removeDocument(id:string,e:Event){
+        const button = <HTMLButtonElement> e.target;
+        (button.parentNode as HTMLUListElement).remove();
+            const removeDocument = new LocStorage();
+            removeDocument.removeDocument(id);
     }
 }

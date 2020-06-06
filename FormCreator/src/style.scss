@@ -10,10 +10,10 @@ $colorLink: #0e153a;
     height: 100vh;
     width: 100vw;
     display: flex;
-    flex-flow: row;
+    flex-flow: row wrap;
     .big-link {
-        width: 50vw;
-        height: 100vh;
+        width: 50%;
+        height: 50%;
         display: flex;
         align-items: center;
         justify-content: center;

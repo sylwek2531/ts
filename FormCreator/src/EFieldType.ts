@@ -1,8 +1,8 @@
 export enum FieldType {
-    "inputText",
-    "textarea",
-    "inputDate",
-    "inputEmail",
-    "inputCheckbox",
-    "select"
+    "inputText" = "Pole tekstowe",
+    "textarea" = "Obszar tesktowy",
+    "inputDate" = "Pole daty",
+    "inputEmail" = "Pole email",
+    "inputCheckbox" = "Pole zaznaczenie",
+    "select" = "Pole wyboru"
 }

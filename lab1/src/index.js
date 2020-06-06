@@ -29,7 +29,7 @@ function updateValues() {
     const valueInputs = [];
     for (let i = 0; inputs.length > i; i++) {
         const el = inputs[i];
-        console.log(el.value);
+        // console.log(el.value);
         valueInputs.push(Number(el.value));
     }
     data.min = getMin(valueInputs);

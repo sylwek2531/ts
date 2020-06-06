@@ -2,6 +2,7 @@ import { Form } from './Form';
 import './style.scss';
 import { DocumentList } from './DocumentList';
 import { Router } from './Router';
+import { FormCreator } from './FormCreator';
 
 class App {
     constructor() {
@@ -16,9 +17,16 @@ class App {
             const getParam = Router.getParams("id");
             const documentList = new DocumentList();
             const getDocument = documentList.getDocument(getParam);
+            if(getDocument === null){
+                window.location.replace("/index.html");
+            }
             const form = new Form();
             form.insertValue(getDocument);
             form.render();
+        }else if(window.location.pathname == "/form-creator.html"){
+            const creatorForm = new FormCreator();
+            creatorForm.newForm();
+
         }
     }
 }
