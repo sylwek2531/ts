@@ -8,17 +8,24 @@ export class InputField implements Field {
     type: FieldType.inputText;
     value: string;
     id: number = new Date().getTime();
+    events: string[] = ["focusout", "input", "change"]
     constructor(name: string, label: string, value?: string) {
         this.name = name;
         this.label = new FieldLabel(label);
         this.value = value ? value : "";
     }
+    addEvent(): void {
+        throw new Error("Method not implemented.");
+    }
     getValue(): string {
         return this.value;
     }
-    // setValue(value:string){
-    //     this.value = value;
-    // }
+    addDefaultEvents(element: HTMLInputElement): void {
+        this.events.forEach(e => element.addEventListener(e, event => this.setValue(<string>(<HTMLInputElement>event.target).value)));
+    }
+    setValue(value:string){
+        this.value = value;
+    }
     render(): HTMLDivElement {
         const element = document.createElement("div");
         element.classList.add("form-group");

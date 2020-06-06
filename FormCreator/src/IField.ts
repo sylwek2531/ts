@@ -7,5 +7,6 @@ export interface Field {
     type: FieldType,
     value: string,
     render(): HTMLElement,
-    getValue(): string
-}
+    getValue(): string,
+    addDefaultEvents():void,
+}   
