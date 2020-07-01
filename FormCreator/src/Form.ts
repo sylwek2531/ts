@@ -26,13 +26,15 @@ export class Form {
         })
     }
     getValue() {
-        const answer: { [key: string]: string | number } = {};
+
+        const answer: { [key: string]: string | number | boolean } = {};
 
         this.renderForm.forEach(el => {
             if(el.type === FieldType.inputCheckbox){
                 // console.log(document.getElementById(el.id + el.name+":checked"));
                 // answer[el.name] = (<HTMLInputElement>document.getElementById(el.id + el.name+":checked")).value;
-                answer[el.name] = (<HTMLInputElement>document.getElementById(el.id + el.name)).value;
+                // console.log((<HTMLInputElement>document.getElementById(el.id + el.name)).checked)
+                answer[el.name] = (<HTMLInputElement>document.getElementById(el.id + el.name)).checked;
             }else{
                 answer[el.name] = (<HTMLInputElement>document.getElementById(el.id + el.name)).value;
             }
@@ -44,6 +46,7 @@ export class Form {
         this.renderForm.forEach(el => forms.append(el.render()));
         const renderElement: HTMLElement = document.getElementById(this.renderElement);
 
+        //do przeniesienia
         const buttonSave = document.createElement("button");
         buttonSave.innerText = "Save";
         buttonSave.addEventListener("click", () => {
@@ -64,6 +67,6 @@ export class Form {
     save() {
         const save = new LocStorage();
         save.saveDocument(this.getValue());
-        window.location.href = '/index.html';
+        // window.location.href = '/index.html';
     }
 }

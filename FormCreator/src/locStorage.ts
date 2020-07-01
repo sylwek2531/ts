@@ -1,7 +1,7 @@
 import { Router } from "./Router";
 
 export class LocStorage implements Storage {
-    [name: string]: any;
+    //[name: string]: any;
     keyMain: string = "1234567890";
     length: number;
     clear(): void {
@@ -19,8 +19,9 @@ export class LocStorage implements Storage {
     setItem(key: string, value: string): void {
         localStorage.setItem(key, value);
     }
-    saveDocument(object: any): string {
-        const getId = Router.getParams("id");
+    saveDocument(object: any, getId : string): string {
+        //drugia parametr id
+        // const getId = Router.getParams("id");
         
         if(!getId){
             let key: string = Date.now().toString();

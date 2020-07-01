@@ -20,8 +20,8 @@ export class InputField implements Field {
     getValue(): string {
         return this.value;
     }
-    addDefaultEvents(element: HTMLInputElement): void {
-        this.events.forEach(e => element.addEventListener(e, event => this.setValue(<string>(<HTMLInputElement>event.target).value)));
+    addDefaultEvents(): void {
+        // this.events.forEach(e => element.addEventListener(e, event => this.setValue(<string>(<HTMLInputElement>event.target).value)));
     }
     setValue(value:string){
         this.value = value;
