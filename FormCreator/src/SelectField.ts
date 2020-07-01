@@ -15,6 +15,9 @@ export class SelectField implements Field {
         this.value = value ? value : "";
         this.option = option;
     }
+    addDefaultEvents(): void {
+        throw new Error("Method not implemented.");
+    }
     getValue(): string {
         return this.value;
     }

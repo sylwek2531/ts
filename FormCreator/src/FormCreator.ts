@@ -70,19 +70,19 @@ export class FormCreator {
 
     const inputText = new InputField("label" + i, "Etykieta pola");
     const inputRender = inputText.render();
-    inputText.addDefaultEvents(<HTMLInputElement>inputRender.querySelector("input"));
+    // inputText.addDefaultEvents(<HTMLInputElement>inputRender.querySelector("input"));
     element.append(inputRender);
 
 
     const inputTextName = new InputField("name" + i, "Nazwa pola");
     const nameRender = inputTextName.render();
-    inputTextName.addDefaultEvents(<HTMLInputElement>nameRender.querySelector("input"));
+    // inputTextName.addDefaultEvents(<HTMLInputElement>nameRender.querySelector("input"));
     element.append(nameRender);
 
 
     const inputTextDvalue = new InputField("value" + i, "Domyślna wartość");
     const textDefaultRender = inputTextDvalue.render();
-    inputTextDvalue.addDefaultEvents(<HTMLInputElement>textDefaultRender.querySelector("input"));
+    // inputTextDvalue.addDefaultEvents(<HTMLInputElement>textDefaultRender.querySelector("input"));
     element.append(textDefaultRender);
 
 //zatypowac to 
