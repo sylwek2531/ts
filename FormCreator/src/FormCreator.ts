@@ -1,12 +1,15 @@
 import { SelectField } from "./SelectField";
-import { FieldType } from "./EFieldType";
+import FieldTypeTranslations, { FieldType } from "./EFieldType";
 import { InputField } from "./InputField";
 import { Button } from "./Button";
 import { CheckboxField } from "./CheckboxField";
+import { IFieldCreator } from "./IFieldCreator";
+import { Field } from "./IField";
+import { LocStorage } from "./locStorage";
 
 export class FormCreator {
   renderElement: string = "input-wrapper";
-  renderForm: object[] = [];
+  renderForm: Array<IFieldCreator> = [];
   //jaki typ?
   data = {
     sum: 0,
@@ -14,8 +17,11 @@ export class FormCreator {
     min: 0,
     max: 0,
   };
+  locStorage: LocStorage;
+  inputField : { [key : string] :  SelectField | InputField} = {};
   constructor(renderElement?: string) {
     this.renderElement = renderElement ? renderElement : this.renderElement;
+    this.locStorage = new LocStorage("9876543");
   }
   newForm() {
     document.getElementById("generate").addEventListener("click", () => {
@@ -29,11 +35,20 @@ export class FormCreator {
     });
   }
   saveForm() {
-    this.getAllInputs().forEach((el) => {
-      let newForm = [];
-
-      console.log(el);
+    const newForm: { name: string; label: string; type: string; value: string; }[] = [];
+    this.getAllInputs().forEach((el:IFieldCreator) => {
+      console.log(el)
+      const createField = {
+        name: el.name.value,
+        label: el.label.value,
+        type:  el.type.value,
+        value: el.value.value
+      }
+      newForm.push(createField);
     });
+    this.locStorage.saveDocument(newForm);
+    window.location.href = '/index.html';
+
     // korzyta z locStorag klasy
   }
 
@@ -62,31 +77,29 @@ export class FormCreator {
       "type" + i,
       "Typ pola",
       "",
-      Object.values(FieldType)
-    );
+        FieldTypeTranslations
+      );
+      // Object.values(FieldType)
     
     element.append(selectField.render());
 
 
     const inputText = new InputField("label" + i, "Etykieta pola");
     const inputRender = inputText.render();
-    // inputText.addDefaultEvents(<HTMLInputElement>inputRender.querySelector("input"));
     element.append(inputRender);
 
 
     const inputTextName = new InputField("name" + i, "Nazwa pola");
     const nameRender = inputTextName.render();
-    // inputTextName.addDefaultEvents(<HTMLInputElement>nameRender.querySelector("input"));
     element.append(nameRender);
 
 
     const inputTextDvalue = new InputField("value" + i, "Domyślna wartość");
     const textDefaultRender = inputTextDvalue.render();
-    // inputTextDvalue.addDefaultEvents(<HTMLInputElement>textDefaultRender.querySelector("input"));
     element.append(textDefaultRender);
 
 //zatypowac to 
-    const newInput = {
+    const newInput : IFieldCreator = {
       type: selectField,
       label: inputText,
       name: inputTextName,
@@ -106,7 +119,7 @@ export class FormCreator {
     return element;
   }
 
-  getAllInputs(): object[] {
+  getAllInputs(): Array<IFieldCreator> {
     return this.renderForm;
   }
 

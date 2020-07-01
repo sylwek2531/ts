@@ -3,6 +3,11 @@ import { Router } from "./Router";
 export class LocStorage implements Storage {
     //[name: string]: any;
     keyMain: string = "1234567890";
+    constructor(keyMain?:string){
+        if(keyMain && keyMain.length){
+            this.keyMain = keyMain;
+        }
+    }
     length: number;
     clear(): void {
         localStorage.clear();

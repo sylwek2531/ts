@@ -5,15 +5,57 @@ import { CheckboxField } from "./CheckboxField";
 import { TextAreaField } from "./TextAreaField";
 import { LocStorage } from "./locStorage";
 import { FieldType } from "./EFieldType";
+import { FormCreator } from "./FormCreator";
+import { DateField } from "./DateField";
 
 export class Form {
     renderElement: string = "input-wrapper";
-    renderForm = [new InputField("name", "Imię"), new InputField("surname", "Nazwisko"), new EmailField("email", "E-mail"), new SelectField("fieldStudy", "Wybrany kierunek studiów", "", ["Informatyka i  ekjonometria", "Budownictwo", "Mechatronika"]), new CheckboxField("eLearning", "Czy preferujesz e-learning"), new TextAreaField("comments", "Uwagi")];
+    renderForm = this.owe();
+    // renderForm = [new InputField("name", "Imię"), new InputField("surname", "Nazwisko"), new EmailField("email", "E-mail"), new SelectField("fieldStudy", "Wybrany kierunek studiów", "", {"1" :"Informatyka i  ekjonometria", "2":"Budownictwo", "3":"Mechatronika"}), new CheckboxField("eLearning", "Czy preferujesz e-learning"), new TextAreaField("comments", "Uwagi")];
     // renderForm = [new InputField("name", "Imię"), new InputField("surname", "Nazwisko"), new EmailField("email", "E-mail"), new SelectField("fieldStudy", "Wybrany kierunek studiów", "", ["Informatyka i  ekjonometria", "Budownictwo", "Mechatronika"]), new CheckboxField("eLearning", "Czy preferujesz e-learning", "Preferuje"), new TextAreaField("comments", "Uwagi")];
     // renderForm = [new InputField("name", "Imię")];
     // renderForm = [new InputField("name", "imie"), InputField, EmailField, SelectField, CheckboxField, TextAreaField];
     constructor(renderElement?: string) {
         this.renderElement = renderElement ? renderElement : this.renderElement;
+
+    }
+    owe():Array<any>{
+      const lo = new LocStorage();
+      const returnLocal:any = lo.loadDocument("1593641245592");
+      let parsedArray: { name: string; label: string; type: string; value: string; }[] = [];
+        const renderFormElements:Array<any> = [];
+        parsedArray = Object.keys(returnLocal).map(function(personNamedIndex){
+            let person = returnLocal[personNamedIndex];
+            // do something with person
+            return person;
+        });
+
+        parsedArray.forEach(el=>{
+            switch (parseInt(el.type)) {
+                case FieldType.inputText:
+                    renderFormElements.push(new InputField(el.name, el.label, el.value));
+                    break;
+                case FieldType.textarea:
+                    renderFormElements.push(new TextAreaField(el.name, el.label, el.value));
+                    break;
+                case FieldType.inputDate:
+                    renderFormElements.push(new DateField(el.name, el.label, el.value));
+                    break;
+                case FieldType.inputEmail:
+                    renderFormElements.push(new EmailField(el.name, el.label, el.value));
+                    break;
+                case FieldType.inputCheckbox:
+                    renderFormElements.push(new CheckboxField(el.name, el.label, el.value));
+                    break;
+                case FieldType.select:
+                    renderFormElements.push(new SelectField(el.name, el.label, el.value));
+                    break;
+                default:
+                    break;
+            }
+        })
+    
+        return renderFormElements;
 
     }
     // insertValue(documentData:{ [key: string]: string | number }){
@@ -67,6 +109,6 @@ export class Form {
     save() {
         const save = new LocStorage();
         save.saveDocument(this.getValue());
-        // window.location.href = '/index.html';
+        window.location.href = '/index.html';
     }
 }
