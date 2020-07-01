@@ -26,6 +26,7 @@ export class Form {
         })
     }
     getValue() {
+
         const answer: { [key: string]: string | number | boolean } = {};
 
         this.renderForm.forEach(el => {
@@ -45,6 +46,7 @@ export class Form {
         this.renderForm.forEach(el => forms.append(el.render()));
         const renderElement: HTMLElement = document.getElementById(this.renderElement);
 
+        //do przeniesienia
         const buttonSave = document.createElement("button");
         buttonSave.innerText = "Save";
         buttonSave.addEventListener("click", () => {

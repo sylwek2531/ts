@@ -85,7 +85,7 @@ export class FormCreator {
     // inputTextDvalue.addDefaultEvents(<HTMLInputElement>textDefaultRender.querySelector("input"));
     element.append(textDefaultRender);
 
-
+//zatypowac to 
     const newInput = {
       type: selectField,
       label: inputText,
