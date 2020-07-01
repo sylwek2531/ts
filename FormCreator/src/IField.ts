@@ -8,5 +8,7 @@ export interface Field {
     value: string,
     render(): HTMLElement,
     getValue(): string,
-    addDefaultEvents():void,
+    setValue(value:string): boolean,
+    addDefaultEvents(element : HTMLElement):void,
 }   
+
