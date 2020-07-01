@@ -19,11 +19,11 @@ export class LocStorage implements Storage {
     setItem(key: string, value: string): void {
         localStorage.setItem(key, value);
     }
-    saveDocument(object: any, getId : string): string {
+    saveDocument(object: any, getId : string = ""): string {
         //drugia parametr id
         // const getId = Router.getParams("id");
         
-        if(!getId){
+        if(getId == "" || getId.length == 0){
             let key: string = Date.now().toString();
             const getDocuments = this.getDocuments();
             if (getDocuments.length == 0) {

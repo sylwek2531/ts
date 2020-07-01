@@ -23,8 +23,13 @@ export class InputField implements Field {
     addDefaultEvents(): void {
         // this.events.forEach(e => element.addEventListener(e, event => this.setValue(<string>(<HTMLInputElement>event.target).value)));
     }
-    setValue(value:string){
+    setValue(value:string) :boolean{
         this.value = value;
+        if(this.getValue() === value){
+            return true;
+        }else{
+            return false;
+        }
     }
     render(): HTMLDivElement {
         const element = document.createElement("div");
