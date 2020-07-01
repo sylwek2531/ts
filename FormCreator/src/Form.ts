@@ -26,14 +26,15 @@ export class Form {
         })
     }
     getValue() {
-        //do[rzerobienia] zklasy nie
-        const answer: { [key: string]: string | number } = {};
+
+        const answer: { [key: string]: string | number | boolean } = {};
 
         this.renderForm.forEach(el => {
             if(el.type === FieldType.inputCheckbox){
                 // console.log(document.getElementById(el.id + el.name+":checked"));
                 // answer[el.name] = (<HTMLInputElement>document.getElementById(el.id + el.name+":checked")).value;
-                answer[el.name] = (<HTMLInputElement>document.getElementById(el.id + el.name)).value;
+                // console.log((<HTMLInputElement>document.getElementById(el.id + el.name)).checked)
+                answer[el.name] = (<HTMLInputElement>document.getElementById(el.id + el.name)).checked;
             }else{
                 answer[el.name] = (<HTMLInputElement>document.getElementById(el.id + el.name)).value;
             }
@@ -66,6 +67,6 @@ export class Form {
     save() {
         const save = new LocStorage();
         save.saveDocument(this.getValue());
-        window.location.href = '/index.html';
+        // window.location.href = '/index.html';
     }
 }

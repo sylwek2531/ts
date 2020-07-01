@@ -13,6 +13,9 @@ export class EmailField implements Field {
         this.label = new FieldLabel(label);
         this.value = value ? value : "";
     }
+    addDefaultEvents(): void {
+        throw new Error("Method not implemented.");
+    }
     getValue(): string {
         return this.value;
     }
