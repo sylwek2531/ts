@@ -2,11 +2,15 @@ import { LocStorage } from "./locStorage";
 
 export class DocumentList {
     allDocuments: string[];
-    constructor(){
+    key:string;
+    constructor(key?:string){
+        if(key && key.length){
+            this.key = key;
+        }
         this.getDocumentList();
     }
     getDocumentList() {
-        const getAllDocuemnt = new LocStorage();
+        const getAllDocuemnt = new LocStorage(this.key);
         this.allDocuments = getAllDocuemnt.getDocuments();
     }
     render(): HTMLUListElement {
@@ -17,7 +21,7 @@ export class DocumentList {
             this.allDocuments.forEach(el => {
                 const list = document.createElement("li");
                 const a = document.createElement("a");
-                a.href = "edit-document.html?id="+el;
+                a.href = "edit-document.html?id="+el; 
                 a.innerText = el.toString();
                 list.append(a);
                 const button = document.createElement("button");

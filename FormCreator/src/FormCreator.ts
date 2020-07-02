@@ -34,6 +34,15 @@ export class FormCreator {
       this.saveForm();
     });
   }
+  insertValue(documentData:any){
+    this.renderForm.forEach(el => {
+      console.log(el)
+        if(documentData.hasOwnProperty(el.name)){
+            // el.value = documentData[el.name];
+        }
+      
+    })
+}
   saveForm() {
     const newForm: { name: string; label: string; type: string; value: string; }[] = [];
     this.getAllInputs().forEach((el:IFieldCreator) => {

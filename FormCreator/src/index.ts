@@ -28,6 +28,13 @@ class App {
             creatorForm.newForm();
 
         }
+        else if(window.location.pathname == "/form-list.html"){
+            
+            const creatorForm = new DocumentList("9876543");
+            const list = creatorForm.render();
+            document.getElementById("list-forms").append(list);
+
+        }
     }
 }
 window.addEventListener('DOMContentLoaded', (event) => {
