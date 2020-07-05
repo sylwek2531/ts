@@ -20,8 +20,8 @@ export class InputField implements Field {
     getValue(): string {
         return this.value;
     }
-    addDefaultEvents(): void {
-        // this.events.forEach(e => element.addEventListener(e, event => this.setValue(<string>(<HTMLInputElement>event.target).value)));
+    addDefaultEvents(input:HTMLInputElement): void {
+        this.events.forEach(e => input.addEventListener(e, event => this.setValue(<string>(<HTMLInputElement>event.target).value)));
     }
     setValue(value:string) :boolean{
         this.value = value;
@@ -42,9 +42,12 @@ export class InputField implements Field {
         input.value = this.value;
 
         //this.type wumagany tutaj? jesli nie a weysoetlam nie mam tego klucza
-        this.type = FieldType.inputText
+        // this.type = FieldType.inputText
         element.append(this.label.render());
         element.append(input);
+
+        // add default events to input
+        this.addDefaultEvents(input);
         return element;
     }
 

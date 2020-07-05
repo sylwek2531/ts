@@ -1,8 +1,18 @@
 import { Router } from "./Router";
+import { DocumentsRelations } from "./relations/Documents";
 
 export class LocStorage implements Storage {
     //[name: string]: any;
     keyMain: string = "1234567890";
+    type: number = 0;
+    constructor(keyMain?:string, type?:number){
+        if(keyMain && keyMain.length){
+            this.keyMain = keyMain;
+        }
+        if(type){
+            this.type = type;
+        }
+    }
     length: number;
     clear(): void {
         localStorage.clear();
@@ -21,9 +31,12 @@ export class LocStorage implements Storage {
     }
     saveDocument(object: any, getId : string = ""): string {
         //drugia parametr id
-        // const getId = Router.getParams("id");
+        let getIdForm;
+        if(this.type != 1){
+            getIdForm = Router.getParams("id");
+        }
         
-        if(getId == "" || getId.length == 0){
+        if(getId == "" || getId == null){
             let key: string = Date.now().toString();
             const getDocuments = this.getDocuments();
             if (getDocuments.length == 0) {
@@ -32,12 +45,25 @@ export class LocStorage implements Storage {
             getDocuments.push(key);
             this.setItem(this.keyMain, JSON.stringify(getDocuments));
             this.setItem(key, JSON.stringify(object));
+
+            if(this.type != 1){
+                const relations = new DocumentsRelations();
+                relations.saveDocumentRelations(key, getIdForm);
+            }
             return key;
         }else{
             this.setItem(getId, JSON.stringify(object));
             return getId;
         }
 
+    }
+    saveDocumentRelation(object:any){
+        const getDocuments = this.getDocuments();
+        if (getDocuments.length == 0) {
+            this.setItem(this.keyMain, JSON.stringify([]));
+        } 
+        getDocuments.push(object);
+        this.setItem(this.keyMain, JSON.stringify(getDocuments));
     }
     loadDocument(string: string): object {
         const getDocument = this.getItem(string);

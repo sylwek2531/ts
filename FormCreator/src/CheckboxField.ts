@@ -13,6 +13,14 @@ export class CheckboxField implements Field {
         this.label = new FieldLabel(label);
         this.value = value ? value : "";
     }
+    setValue(value: string): boolean {
+        this.value = value;
+        if(this.getValue() === value){
+            return true;
+        }else{
+            return false;
+        }
+    }
     addDefaultEvents(): void {
         throw new Error("Method not implemented.");
     }
@@ -32,7 +40,9 @@ export class CheckboxField implements Field {
         if(this.value){
             input.checked = true;
         }
-        element.append(this.label.render());
+        const label:HTMLLabelElement = this.label.render();
+        label.htmlFor = input.id;
+        element.append(label);
         element.append(input);
         return element;
     }
