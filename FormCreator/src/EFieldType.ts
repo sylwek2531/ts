@@ -19,7 +19,7 @@ const FieldTypeTranslations  = {
     [FieldType.textarea] : "Obszar tesktowy",
     [FieldType.inputDate] : "Pole daty",
     [FieldType.inputEmail] : "Pole email",
-    [FieldType.select] : "Pole wyboru",
+    [FieldType.inputCheckbox] : "Pole wyboru",
     
 }
 

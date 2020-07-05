@@ -7,27 +7,32 @@ import { LocStorage } from "./locStorage";
 import { FieldType } from "./EFieldType";
 import { FormCreator } from "./FormCreator";
 import { DateField } from "./DateField";
+import { Router } from "./Router";
 
 export class Form {
     renderElement: string = "input-wrapper";
-    renderForm = this.owe();
-    // renderForm = [new InputField("name", "Imię"), new InputField("surname", "Nazwisko"), new EmailField("email", "E-mail"), new SelectField("fieldStudy", "Wybrany kierunek studiów", "", {"1" :"Informatyka i  ekjonometria", "2":"Budownictwo", "3":"Mechatronika"}), new CheckboxField("eLearning", "Czy preferujesz e-learning"), new TextAreaField("comments", "Uwagi")];
-    // renderForm = [new InputField("name", "Imię"), new InputField("surname", "Nazwisko"), new EmailField("email", "E-mail"), new SelectField("fieldStudy", "Wybrany kierunek studiów", "", ["Informatyka i  ekjonometria", "Budownictwo", "Mechatronika"]), new CheckboxField("eLearning", "Czy preferujesz e-learning", "Preferuje"), new TextAreaField("comments", "Uwagi")];
-    // renderForm = [new InputField("name", "Imię")];
-    // renderForm = [new InputField("name", "imie"), InputField, EmailField, SelectField, CheckboxField, TextAreaField];
-    constructor(renderElement?: string) {
-        this.renderElement = renderElement ? renderElement : this.renderElement;
+    titleElement: string = "form-title";
+    actionElement:string = "action-wrapper";
+    renderForm: Array<any> ;
+    id: string;
+    title:string;
+   
+    constructor(id?: string) {
+        if(id && id.length){
+            this.id = id;
+            this.renderForm = this.createObjectFields();
+        }
 
     }
-    owe():Array<any>{
+    createObjectFields():Array<any>{
       const lo = new LocStorage();
-      const returnLocal:any = lo.loadDocument("1593641245592");
+      const returnLocal:any = lo.loadDocument(this.id);
+      this.title = returnLocal.title;
       let parsedArray: { name: string; label: string; type: string; value: string; }[] = [];
         const renderFormElements:Array<any> = [];
-        parsedArray = Object.keys(returnLocal).map(function(personNamedIndex){
-            let person = returnLocal[personNamedIndex];
-            // do something with person
-            return person;
+        parsedArray = Object.keys(returnLocal.form).map(function(keyField){
+            let field = returnLocal.form[keyField];
+            return field;
         });
 
         parsedArray.forEach(el=>{
@@ -87,28 +92,50 @@ export class Form {
         const forms = document.createElement("div");
         this.renderForm.forEach(el => forms.append(el.render()));
         const renderElement: HTMLElement = document.getElementById(this.renderElement);
+        
+        this.createTitleForm();
+        this.createActionForm();
 
-        //do przeniesienia
+        renderElement.append(forms);
+    }
+    createTitleForm(){
+        const renderTitleElement: HTMLElement = document.getElementById(this.titleElement);
+        renderTitleElement.innerText = this.title;
+
+    }
+    createActionForm(){
+        const renderActionElement: HTMLElement = document.getElementById(this.actionElement);
+        renderActionElement.append(this.createBackButton());
+        renderActionElement.append(this.createSaveButton());
+    }
+    createSaveButton(): HTMLButtonElement{
         const buttonSave = document.createElement("button");
+        buttonSave.classList.add("save-action");
         buttonSave.innerText = "Save";
         buttonSave.addEventListener("click", () => {
             this.save();
         })
-
+        return buttonSave;
+    }
+    createBackButton():HTMLButtonElement{
         const buttonBack = document.createElement("button");
+        buttonBack.classList.add("back-action");
         buttonBack.innerText = "Back";
         buttonBack.addEventListener("click", () => {
             window.history.back();
             // window.location.href = '/index.html';
         })
-
-        renderElement.append(forms);
-        renderElement.append(buttonBack);
-        renderElement.append(buttonSave);
+        return buttonBack;
     }
     save() {
         const save = new LocStorage();
-        save.saveDocument(this.getValue());
+        if (window.location.pathname == "/edit-document.html"){
+            let isEdit = Router.getParams("id");
+            save.saveDocument(this.getValue(), isEdit != null ? isEdit : "");
+
+         }else{
+            save.saveDocument(this.getValue());
+         }
         window.location.href = '/index.html';
     }
 }

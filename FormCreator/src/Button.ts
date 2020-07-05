@@ -6,6 +6,7 @@ export class Button {
     }
     render(): HTMLButtonElement {
         const buttonElement = <HTMLButtonElement>document.createElement("button");
+        buttonElement.classList.add("delete-action");
         buttonElement.innerText = this.text;
         return buttonElement;
     }

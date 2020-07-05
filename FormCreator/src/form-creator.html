@@ -9,14 +9,20 @@
 
 <body>
     <main id="main">
-        <button id="removeMore">Remove checked input</button>
+        <section id="form-creator">
 
-        <input placeholder="Ilość pól" id="quantity" type="text"></input>
-        <button id="generate">Generate</button>
-        <button id="save">save</button>
-        <div id="listInputs">
-          
-        </div>
+            <div class="header panel">
+                <input id="quantity" type="text"></input>
+                <button class="generate-action" id="generate">Generate</button>
+            </div>
+            <div id="listInputs" class="panel">
+                
+            </div>
+            <div id="action-wrapper" class="panel">
+                <button class="remove-action" id="removeMore">Remove checked input</button>
+                <button class="save-action" id="save">save</button>
+            </div>
+        </section>
     </main>
     <script src="index.js"></script>
 </body>

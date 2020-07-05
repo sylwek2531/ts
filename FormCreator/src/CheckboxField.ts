@@ -40,7 +40,9 @@ export class CheckboxField implements Field {
         if(this.value){
             input.checked = true;
         }
-        element.append(this.label.render());
+        const label:HTMLLabelElement = this.label.render();
+        label.htmlFor = input.id;
+        element.append(label);
         element.append(input);
         return element;
     }

@@ -25,6 +25,7 @@ export class DocumentList {
                 a.innerText = el.toString();
                 list.append(a);
                 const button = document.createElement("button");
+                button.classList.add("delete-action");
                 button.innerText = "Usuń";
                 button.addEventListener("click", (e)=>{
                     this.removeDocument(el,e);
@@ -37,14 +38,40 @@ export class DocumentList {
         createList.innerText = "Brak";
         return createList;
     }
-    getDocument(id:string):object{
+    renderForms(): HTMLUListElement {
+        const createList = document.createElement("ul");
+        createList.classList.add("list-documents")
+        if(this.allDocuments.length > 0){
+        
+            this.allDocuments.forEach(el => {
+                const list = document.createElement("li");
+                const a = document.createElement("a");
+                a.href = "new-document.html?id="+el; 
+                const form = this.getDocument(el.toString());
+                a.innerText = form["title"];
+                list.append(a);
+                const button = document.createElement("button");
+                button.classList.add("delete-action");
+                button.innerText = "Usuń";
+                button.addEventListener("click", (e)=>{
+                    this.removeDocument(el,e);
+                })
+                list.append(button);
+                createList.append(list);
+            })
+            return createList;
+        }
+        createList.innerText = "Brak";
+        return createList;
+    }
+    getDocument(id:string):any{
         const getDocument = new LocStorage();
         return  getDocument.loadDocument(id);
     }
     removeDocument(id:string,e:Event){
         const button = <HTMLButtonElement> e.target;
         (button.parentNode as HTMLUListElement).remove();
-            const removeDocument = new LocStorage();
+            const removeDocument = new LocStorage(this.key);
             removeDocument.removeDocument(id);
     }
 }

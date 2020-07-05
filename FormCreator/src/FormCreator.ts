@@ -10,6 +10,7 @@ import { LocStorage } from "./locStorage";
 export class FormCreator {
   renderElement: string = "input-wrapper";
   renderForm: Array<IFieldCreator> = [];
+  titleForm: InputField;
   //jaki typ?
   data = {
     sum: 0,
@@ -21,7 +22,7 @@ export class FormCreator {
   inputField : { [key : string] :  SelectField | InputField} = {};
   constructor(renderElement?: string) {
     this.renderElement = renderElement ? renderElement : this.renderElement;
-    this.locStorage = new LocStorage("9876543");
+    this.locStorage = new LocStorage("9876543", 1);
   }
   newForm() {
     document.getElementById("generate").addEventListener("click", () => {
@@ -34,19 +35,10 @@ export class FormCreator {
       this.saveForm();
     });
   }
-  insertValue(documentData:any){
-    this.renderForm.forEach(el => {
-      console.log(el)
-        if(documentData.hasOwnProperty(el.name)){
-            // el.value = documentData[el.name];
-        }
-      
-    })
-}
+ 
   saveForm() {
     const newForm: { name: string; label: string; type: string; value: string; }[] = [];
     this.getAllInputs().forEach((el:IFieldCreator) => {
-      console.log(el)
       const createField = {
         name: el.name.value,
         label: el.label.value,
@@ -55,7 +47,12 @@ export class FormCreator {
       }
       newForm.push(createField);
     });
-    this.locStorage.saveDocument(newForm);
+    const formObj = {
+      title: this.titleForm.getValue(),
+      form: newForm
+    }
+    this.locStorage.saveDocument(formObj);
+
     window.location.href = '/index.html';
 
     // korzyta z locStorag klasy
@@ -70,6 +67,10 @@ export class FormCreator {
         const generate = this.generateInput(i.toString());
         listInputs.append(generate);
       }
+      this.titleForm = new InputField("titleForm", "Name of Form", "My first form");
+      listInputs.prepend(this.titleForm.render());
+      listInputs.classList.add("generate");
+      document.getElementById("action-wrapper").classList.add("show-action");
       quantity.value = "";
     } else {
       this.showAlert("The value is not correct");
@@ -94,20 +95,16 @@ export class FormCreator {
 
 
     const inputText = new InputField("label" + i, "Etykieta pola");
-    const inputRender = inputText.render();
-    element.append(inputRender);
+    element.append(inputText.render());
 
 
     const inputTextName = new InputField("name" + i, "Nazwa pola");
-    const nameRender = inputTextName.render();
-    element.append(nameRender);
+    element.append(inputTextName.render());
 
 
     const inputTextDvalue = new InputField("value" + i, "Domyślna wartość");
-    const textDefaultRender = inputTextDvalue.render();
-    element.append(textDefaultRender);
+    element.append(inputTextDvalue.render());
 
-//zatypowac to 
     const newInput : IFieldCreator = {
       type: selectField,
       label: inputText,
